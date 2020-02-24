@@ -1,12 +1,12 @@
 class Settings {
-  String themeColor;
-  String fontFamily;
+  int themeColor;
+  int fontFamily;
 
   Settings({this.themeColor, this.fontFamily});
 
   factory Settings.fromMap(Map<String, dynamic> json) => new Settings(
-        themeColor: json["themeColor"],
-        fontFamily: json["fontFamily"],
+        themeColor: int.tryParse(json["themeColor"]),
+        fontFamily: int.tryParse(json["fontFamily"]),
       );
 
   Map<String, dynamic> toMap() {

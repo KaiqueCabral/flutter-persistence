@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_persistence/menu/header.dart';
 import 'package:flutter_persistence/pages/dogs/search.dart';
+import 'package:flutter_persistence/pages/home.dart';
 import 'package:flutter_persistence/pages/path/read-write-files.dart';
 import 'package:flutter_persistence/pages/settings/settings.dart';
 
@@ -35,6 +36,24 @@ class _MenuItems extends State<MenuItems> {
 
     var navItems = [
       header,
+      ListTile(
+        leading: Icon(
+          Icons.home,
+          color: Colors.lightBlueAccent,
+        ),
+        title: Text(
+          "Home",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            Navigator.popUntil(
+                context, (r) => r.settings.name == HomePage.routeName);
+          });
+        },
+      ),
       getNavItem(Icons.pets, "Dogs", DogsSearchPage.routeName),
       getNavItem(Icons.insert_drive_file, "Files", ReadWriteFilePage.routeName),
       getNavItem(Icons.settings, "Settings", SettingsPage.routeName),

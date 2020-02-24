@@ -24,15 +24,6 @@ class _SettingsState extends State<SettingsPage> {
   List<DropdownMenuItem<Utils>> dropdownThemeColor;
   List<DropdownMenuItem<Utils>> dropdownFontFamily;
 
-  Future load() async {
-    var _preferences = await SharedPreferences.getInstance();
-    var data = _preferences.getString("data");
-
-    if (data != null) {
-      _settings = Settings.fromMap(jsonDecode(data));
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -105,12 +96,12 @@ class _SettingsState extends State<SettingsPage> {
                         SettingsModel settingsModel = new SettingsModel();
                         settingsModel.setUp(
                           Settings(
-                            themeColor: _themeColor.name,
-                            fontFamily: _fontFamily.name,
+                            themeColor: _themeColor.id,
+                            fontFamily: _fontFamily.id,
                           ),
                         );
 
-                        _seachPage(context);
+                        //_seachPage(context);
                       }
                     },
                   ),
@@ -133,9 +124,9 @@ class _SettingsState extends State<SettingsPage> {
     );
   }
 
-  void _seachPage(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(SettingsPage.routeName);
-  }
+  // void _seachPage(BuildContext context) {
+  //   Navigator.of(context).pushReplacementNamed(SettingsPage.routeName);
+  // }
 
   bool get isEditing => widget.settings != null;
 
@@ -175,5 +166,24 @@ class _SettingsState extends State<SettingsPage> {
         ),
       );
     }).toList();
+  }
+
+  Future load() async {
+    var _preferences = await SharedPreferences.getInstance();
+    var data = _preferences.getString("data");
+
+    if (data != null) {
+      _settings = Settings.fromMap(jsonDecode(data));
+      setState(() {
+        _themeColor = dropdownThemeColor
+            .firstWhere(
+                (themeColor) => themeColor.value.id == _settings.themeColor)
+            .value;
+        _fontFamily = dropdownFontFamily
+            .firstWhere(
+                (fontFamily) => fontFamily.value.id == _settings.fontFamily)
+            .value;
+      });
+    }
   }
 }
